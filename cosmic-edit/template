@@ -1,0 +1,27 @@
+# Template file for 'cosmic-edit'
+pkgname=cosmic-edit
+version=1.0.14
+revision=1
+build_style=cargo
+_epoch_tag="epoch-${version}"
+distfiles="https://github.com/pop-os/cosmic-edit/archive/refs/tags/${_epoch_tag}.tar.gz"
+checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-edit/template
+
+short_desc="COSMIC text editor"
+maintainer="Maintainer <maintainer@example.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/pop-os/cosmic-edit"
+
+hostmakedepends="pkg-config cargo rust"
+makedepends="
+ wayland-devel
+ libxkbcommon-devel
+ freetype-devel
+ fontconfig-devel"
+
+do_install() {
+	vbin target/release/cosmic-edit
+	vmkdir usr/share/applications
+	vinstall data/cosmic-edit.desktop 644 usr/share/applications
+	vlicense LICENSE
+}

@@ -1,0 +1,39 @@
+# Template file for 'cosmic-session'
+pkgname=cosmic-session
+version=1.0.14
+revision=1
+build_style=cargo
+_epoch_tag="epoch-${version}"
+distfiles="https://github.com/pop-os/cosmic-session/archive/refs/tags/${_epoch_tag}.tar.gz"
+checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-session/template
+
+short_desc="COSMIC session manager"
+maintainer="Maintainer <maintainer@example.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/pop-os/cosmic-session"
+
+hostmakedepends="pkg-config cargo rust"
+makedepends="dbus-devel elogind-devel"
+
+depends="
+ cosmic-comp>=${version}
+ cosmic-settings-daemon>=${version}
+ cosmic-panel>=${version}
+ cosmic-bg>=${version}
+ cosmic-launcher>=${version}
+ cosmic-notifications>=${version}
+ cosmic-osd>=${version}
+ cosmic-workspaces>=${version}
+ dbus
+ elogind
+ xdg-user-dirs"
+
+do_install() {
+	vbin target/release/cosmic-session
+	# Install wayland session entry
+	vmkdir usr/share/wayland-sessions
+	vinstall data/cosmic.desktop 644 usr/share/wayland-sessions
+	# Install start-cosmic helper script
+	vbin data/start-cosmic
+	vlicense LICENSE
+}

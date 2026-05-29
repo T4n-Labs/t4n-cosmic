@@ -1,0 +1,46 @@
+# Template file for 'cosmic-applets'
+pkgname=cosmic-applets
+version=1.0.14
+revision=1
+build_style=cargo
+_epoch_tag="epoch-${version}"
+distfiles="https://github.com/pop-os/cosmic-applets/archive/refs/tags/${_epoch_tag}.tar.gz"
+checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-applets/template
+
+short_desc="COSMIC panel applets (battery, network, audio, etc.)"
+maintainer="Maintainer <maintainer@example.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/pop-os/cosmic-applets"
+
+hostmakedepends="pkg-config cargo rust"
+makedepends="
+ wayland-devel
+ libxkbcommon-devel
+ dbus-devel
+ pipewire-devel
+ libpulseaudio-devel
+ networkmanager-devel
+ udev-devel"
+
+depends="dbus pipewire NetworkManager"
+
+# List of individual applet binaries produced by this repo:
+_applets="
+ cosmic-app-list
+ cosmic-applet-audio
+ cosmic-applet-battery
+ cosmic-applet-bluetooth
+ cosmic-applet-network
+ cosmic-applet-notifications
+ cosmic-applet-power
+ cosmic-applet-time
+ cosmic-applet-workspaces"
+
+do_install() {
+	for _applet in ${_applets}; do
+		if [ -f "target/release/${_applet}" ]; then
+			vbin "target/release/${_applet}"
+		fi
+	done
+	vlicense LICENSE
+}

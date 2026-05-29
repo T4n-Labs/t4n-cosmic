@@ -1,0 +1,34 @@
+# Template file for 'cosmic-desktop'
+pkgname=cosmic-desktop
+version=1.0.14
+revision=1
+build_style=meta
+short_desc="COSMIC Desktop Environment (metapackage)"
+maintainer="Maintainer <maintainer@example.com>"
+license="GPL-3.0-or-later"
+homepage="https://system76.com/cosmic"
+
+# Core session & compositor
+depends="cosmic-comp-${version}_${revision}
+ cosmic-session-${version}_${revision}
+ cosmic-settings-${version}_${revision}
+ cosmic-settings-daemon-${version}_${revision}
+ cosmic-applets-${version}_${revision}
+ cosmic-bg-${version}_${revision}
+ cosmic-panel-${version}_${revision}
+ cosmic-launcher-${version}_${revision}
+ cosmic-files-${version}_${revision}
+ cosmic-term-${version}_${revision}
+ cosmic-edit-${version}_${revision}
+ cosmic-store-${version}_${revision}
+ cosmic-screenshot-${version}_${revision}
+ cosmic-notifications-${version}_${revision}
+ cosmic-workspaces-${version}_${revision}
+ cosmic-osd-${version}_${revision}
+ xdg-desktop-portal-cosmic-${version}_${revision}
+ elogind
+ dbus
+ mesa-dri
+ pipewire
+ wireplumber
+ xdg-user-dirs"

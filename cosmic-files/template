@@ -1,0 +1,27 @@
+# Template file for 'cosmic-files'
+pkgname=cosmic-files
+version=1.0.14
+revision=1
+build_style=cargo
+_epoch_tag="epoch-${version}"
+distfiles="https://github.com/pop-os/cosmic-files/archive/refs/tags/${_epoch_tag}.tar.gz"
+checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-files/template
+
+short_desc="COSMIC file manager"
+maintainer="Maintainer <maintainer@example.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/pop-os/cosmic-files"
+
+hostmakedepends="pkg-config cargo rust"
+makedepends="
+ wayland-devel
+ libxkbcommon-devel
+ dbus-devel
+ glib-devel"
+
+do_install() {
+	vbin target/release/cosmic-files
+	vmkdir usr/share/applications
+	vinstall data/cosmic-files.desktop 644 usr/share/applications
+	vlicense LICENSE
+}

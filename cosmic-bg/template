@@ -1,0 +1,23 @@
+# Template file for 'cosmic-bg'
+pkgname=cosmic-bg
+version=1.0.14
+revision=1
+build_style=cargo
+_epoch_tag="epoch-${version}"
+distfiles="https://github.com/pop-os/cosmic-bg/archive/refs/tags/${_epoch_tag}.tar.gz"
+checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-bg/template
+
+short_desc="COSMIC desktop background/wallpaper daemon"
+maintainer="Maintainer <maintainer@example.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/pop-os/cosmic-bg"
+
+hostmakedepends="pkg-config cargo rust"
+makedepends="
+ wayland-devel
+ libxkbcommon-devel"
+
+do_install() {
+	vbin target/release/cosmic-bg
+	vlicense LICENSE
+}

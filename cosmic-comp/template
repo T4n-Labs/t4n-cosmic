@@ -1,0 +1,43 @@
+# Template file for 'cosmic-comp'
+pkgname=cosmic-comp
+version=1.0.14
+revision=1
+build_style=cargo
+_epoch_tag="epoch-${version}"
+distfiles="https://github.com/pop-os/cosmic-comp/archive/refs/tags/${_epoch_tag}.tar.gz"
+checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-comp/template
+
+short_desc="COSMIC Wayland compositor"
+maintainer="Maintainer <maintainer@example.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/pop-os/cosmic-comp"
+
+# Build dependencies
+hostmakedepends="pkg-config cargo rust"
+makedepends="
+ libseat-devel
+ libinput-devel
+ libxkbcommon-devel
+ wayland-devel
+ wayland-protocols
+ pixman-devel
+ libdrm-devel
+ mesa-dri
+ eudev-libudev-devel
+ libgbm-devel
+ libEGL-devel
+ libGL-devel
+ elogind-devel
+ dbus-devel
+ libdisplay-info-devel"
+
+depends="mesa-dri elogind dbus"
+
+# Smithay requires nightly features, use the pinned toolchain in rust-toolchain.toml
+# if present in source; otherwise override here:
+# export RUSTUP_TOOLCHAIN=stable
+
+do_install() {
+	vbin target/release/cosmic-comp
+	vlicense LICENSE
+}

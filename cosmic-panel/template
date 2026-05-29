@@ -1,0 +1,27 @@
+# Template file for 'cosmic-panel'
+pkgname=cosmic-panel
+version=1.0.14
+revision=1
+build_style=cargo
+_epoch_tag="epoch-${version}"
+distfiles="https://github.com/pop-os/cosmic-panel/archive/refs/tags/${_epoch_tag}.tar.gz"
+checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-panel/template
+
+short_desc="COSMIC desktop panel and dock"
+maintainer="Maintainer <maintainer@example.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/pop-os/cosmic-panel"
+
+hostmakedepends="pkg-config cargo rust"
+makedepends="
+ wayland-devel
+ libxkbcommon-devel
+ dbus-devel
+ libseat-devel"
+
+depends="dbus cosmic-applets>=${version}"
+
+do_install() {
+	vbin target/release/cosmic-panel
+	vlicense LICENSE
+}

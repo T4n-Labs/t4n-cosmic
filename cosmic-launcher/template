@@ -1,0 +1,26 @@
+# Template file for 'cosmic-launcher'
+pkgname=cosmic-launcher
+version=1.0.14
+revision=1
+build_style=cargo
+_epoch_tag="epoch-${version}"
+distfiles="https://github.com/pop-os/cosmic-launcher/archive/refs/tags/${_epoch_tag}.tar.gz"
+checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-launcher/template
+
+short_desc="COSMIC application launcher"
+maintainer="Maintainer <maintainer@example.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/pop-os/cosmic-launcher"
+
+hostmakedepends="pkg-config cargo rust"
+makedepends="
+ wayland-devel
+ libxkbcommon-devel
+ dbus-devel"
+
+depends="dbus"
+
+do_install() {
+	vbin target/release/cosmic-launcher
+	vlicense LICENSE
+}

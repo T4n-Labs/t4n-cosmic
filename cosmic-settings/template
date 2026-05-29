@@ -1,0 +1,41 @@
+# Template file for 'cosmic-settings'
+pkgname=cosmic-settings
+version=1.0.14
+revision=1
+build_style=cargo
+_epoch_tag="epoch-${version}"
+distfiles="https://github.com/pop-os/cosmic-settings/archive/refs/tags/${_epoch_tag}.tar.gz"
+checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-settings/template
+
+short_desc="COSMIC system settings application"
+maintainer="Maintainer <maintainer@example.com>"
+license="GPL-3.0-or-later"
+homepage="https://github.com/pop-os/cosmic-settings"
+
+hostmakedepends="pkg-config cargo rust"
+makedepends="
+ libxkbcommon-devel
+ wayland-devel
+ dbus-devel
+ fontconfig-devel
+ freetype-devel
+ libpulseaudio-devel
+ pipewire-devel
+ udev-devel"
+
+depends="dbus pipewire"
+
+do_install() {
+	vbin target/release/cosmic-settings
+	# Install .desktop file
+	vmkdir usr/share/applications
+	vinstall data/cosmic-settings.desktop 644 usr/share/applications
+	# Install icons if present
+	for _size in 16 32 48 64 128 256; do
+		if [ -f "data/icons/${_size}x${_size}/apps/cosmic-settings.png" ]; then
+			vinstall "data/icons/${_size}x${_size}/apps/cosmic-settings.png" 644 \
+				"usr/share/icons/hicolor/${_size}x${_size}/apps"
+		fi
+	done
+	vlicense LICENSE
+}
