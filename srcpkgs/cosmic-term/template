@@ -5,7 +5,7 @@ revision=1
 build_style=cargo
 _epoch_tag="epoch-${version}"
 distfiles="https://github.com/pop-os/cosmic-term/archive/refs/tags/${_epoch_tag}.tar.gz"
-checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-term/template
+checksum=a87be2cd6af73be8ebcae4fe3f8b2777b89cbc3f5593df0623db749961f3e843
 
 short_desc="COSMIC terminal emulator"
 maintainer="Maintainer <maintainer@example.com>"
@@ -17,7 +17,8 @@ makedepends="
  wayland-devel
  libxkbcommon-devel
  freetype-devel
- fontconfig-devel"
+ fontconfig-devel
+"
 
 do_install() {
 	vbin target/release/cosmic-term

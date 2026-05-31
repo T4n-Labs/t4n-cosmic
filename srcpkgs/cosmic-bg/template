@@ -5,7 +5,7 @@ revision=1
 build_style=cargo
 _epoch_tag="epoch-${version}"
 distfiles="https://github.com/pop-os/cosmic-bg/archive/refs/tags/${_epoch_tag}.tar.gz"
-checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-bg/template
+checksum=cdd9a44ce761c1ef390d7e311d499b0b94cae68e21cfbc51a2e7d550945b6f1c
 
 short_desc="COSMIC desktop background/wallpaper daemon"
 maintainer="Maintainer <maintainer@example.com>"
@@ -15,7 +15,8 @@ homepage="https://github.com/pop-os/cosmic-bg"
 hostmakedepends="pkg-config cargo rust"
 makedepends="
  wayland-devel
- libxkbcommon-devel"
+ libxkbcommon-devel
+"
 
 do_install() {
 	vbin target/release/cosmic-bg

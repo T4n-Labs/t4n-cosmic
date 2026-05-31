@@ -5,7 +5,7 @@ revision=1
 build_style=cargo
 _epoch_tag="epoch-${version}"
 distfiles="https://github.com/pop-os/cosmic-edit/archive/refs/tags/${_epoch_tag}.tar.gz"
-checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-edit/template
+checksum=77be0d51f53ae077004e58b1d08b1feb2a9cf777d693500c55f88c81a5fb8d22
 
 short_desc="COSMIC text editor"
 maintainer="Maintainer <maintainer@example.com>"
@@ -17,7 +17,8 @@ makedepends="
  wayland-devel
  libxkbcommon-devel
  freetype-devel
- fontconfig-devel"
+ fontconfig-devel
+"
 
 do_install() {
 	vbin target/release/cosmic-edit

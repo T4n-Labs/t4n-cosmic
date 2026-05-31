@@ -5,7 +5,7 @@ revision=1
 build_style=cargo
 _epoch_tag="epoch-${version}"
 distfiles="https://github.com/pop-os/cosmic-panel/archive/refs/tags/${_epoch_tag}.tar.gz"
-checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-panel/template
+checksum=eaf33f8b28fad96ad71c5433db0dd7bf9f343a335d43169a1f5db78c816dbfc4
 
 short_desc="COSMIC desktop panel and dock"
 maintainer="Maintainer <maintainer@example.com>"
@@ -17,7 +17,8 @@ makedepends="
  wayland-devel
  libxkbcommon-devel
  dbus-devel
- libseat-devel"
+ libseat-devel
+"
 
 depends="dbus cosmic-applets>=${version}"
 

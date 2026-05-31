@@ -5,7 +5,7 @@ revision=1
 build_style=cargo
 _epoch_tag="epoch-${version}"
 distfiles="https://github.com/pop-os/cosmic-files/archive/refs/tags/${_epoch_tag}.tar.gz"
-checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-files/template
+checksum=a8afeffe9b4e47916a79e6344724446870dd0f10cce97dfdd7964705402f416c
 
 short_desc="COSMIC file manager"
 maintainer="Maintainer <maintainer@example.com>"
@@ -17,7 +17,8 @@ makedepends="
  wayland-devel
  libxkbcommon-devel
  dbus-devel
- glib-devel"
+ glib-devel
+"
 
 do_install() {
 	vbin target/release/cosmic-files

@@ -1,7 +1,5 @@
 # COSMIC Desktop xbps-src Templates — v1.0.14
 
-> Template ini masih belum rapi
-
 Template xbps-src untuk membangun **COSMIC Desktop Environment** versi `epoch-1.0.14`
 di Void Linux dari source code.
 
@@ -159,3 +157,11 @@ sudo ln -s /etc/sv/sddm /var/service
 - Upstream: https://github.com/pop-os/cosmic-epoch/releases/tag/epoch-1.0.14
 - Void maintainer (community): https://codeberg.org/Bella109/void-packages
 - xbps-src Manual: https://github.com/void-linux/void-packages/blob/master/Manual.md
+
+---
+
+<div align="center">
+
+[@T4n-Labs](https://t4n-labs.github.io/site) · [@Gh0sT4n](https://gh0st4n.github.io/site)
+
+</div>

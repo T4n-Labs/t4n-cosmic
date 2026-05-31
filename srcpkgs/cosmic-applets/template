@@ -5,7 +5,7 @@ revision=1
 build_style=cargo
 _epoch_tag="epoch-${version}"
 distfiles="https://github.com/pop-os/cosmic-applets/archive/refs/tags/${_epoch_tag}.tar.gz"
-checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-applets/template
+checksum=0b2813fdb18b0f84188cf40b8be1aae59d181da40fdfabcdc90558336d09482a
 
 short_desc="COSMIC panel applets (battery, network, audio, etc.)"
 maintainer="Maintainer <maintainer@example.com>"
@@ -18,13 +18,12 @@ makedepends="
  libxkbcommon-devel
  dbus-devel
  pipewire-devel
- libpulseaudio-devel
- networkmanager-devel
- udev-devel"
-
+ pulseaudio-devel
+ NetworkManager-devel
+ eudev-libudev-devel
+"
 depends="dbus pipewire NetworkManager"
 
-# List of individual applet binaries produced by this repo:
 _applets="
  cosmic-app-list
  cosmic-applet-audio
@@ -34,13 +33,12 @@ _applets="
  cosmic-applet-notifications
  cosmic-applet-power
  cosmic-applet-time
- cosmic-applet-workspaces"
+ cosmic-applet-workspaces
+"
 
 do_install() {
 	for _applet in ${_applets}; do
-		if [ -f "target/release/${_applet}" ]; then
-			vbin "target/release/${_applet}"
-		fi
+		[ -f "target/release/${_applet}" ] && vbin "target/release/${_applet}"
 	done
 	vlicense LICENSE
 }

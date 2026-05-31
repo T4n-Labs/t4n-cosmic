@@ -5,7 +5,7 @@ revision=1
 build_style=cargo
 _epoch_tag="epoch-${version}"
 distfiles="https://github.com/pop-os/cosmic-session/archive/refs/tags/${_epoch_tag}.tar.gz"
-checksum="<sha256sum-here>"  # Run: xgensum -f srcpkgs/cosmic-session/template
+checksum=83e827331d7412a55500ea4bbb0b3e9642675fbbdfc4d0687e06e1cf6ce44666
 
 short_desc="COSMIC session manager"
 maintainer="Maintainer <maintainer@example.com>"
@@ -17,23 +17,18 @@ makedepends="dbus-devel elogind-devel"
 
 depends="
  cosmic-comp>=${version}
- cosmic-settings-daemon>=${version}
  cosmic-panel>=${version}
  cosmic-bg>=${version}
  cosmic-launcher>=${version}
- cosmic-notifications>=${version}
- cosmic-osd>=${version}
- cosmic-workspaces>=${version}
  dbus
  elogind
- xdg-user-dirs"
+ xdg-user-dirs
+"
 
 do_install() {
 	vbin target/release/cosmic-session
-	# Install wayland session entry
 	vmkdir usr/share/wayland-sessions
 	vinstall data/cosmic.desktop 644 usr/share/wayland-sessions
-	# Install start-cosmic helper script
 	vbin data/start-cosmic
 	vlicense LICENSE
 }
