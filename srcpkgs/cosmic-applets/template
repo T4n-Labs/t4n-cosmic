@@ -5,40 +5,38 @@ revision=1
 build_style=cargo
 _epoch_tag="epoch-${version}"
 distfiles="https://github.com/pop-os/cosmic-applets/archive/refs/tags/${_epoch_tag}.tar.gz"
-checksum=0b2813fdb18b0f84188cf40b8be1aae59d181da40fdfabcdc90558336d09482a
+checksum==0b2813fdb18b0f84188cf40b8be1aae59d181da40fdfabcdc90558336d09482a
 
 short_desc="COSMIC panel applets (battery, network, audio, etc.)"
 maintainer="Maintainer <maintainer@example.com>"
 license="GPL-3.0-or-later"
 homepage="https://github.com/pop-os/cosmic-applets"
 
-hostmakedepends="pkg-config cargo rust"
+# clang: libspa-sys pakai bindgen untuk FFI bindings PipeWire → butuh libclang
+
+# clang: libspa-sys use bindgen for FFI bindings PipeWire → needs libclang
+hostmakedepends="pkg-config cargo rust clang"
 makedepends="
  wayland-devel
  libxkbcommon-devel
+ libinput-devel
  dbus-devel
  pipewire-devel
  pulseaudio-devel
  NetworkManager-devel
  eudev-libudev-devel
 "
-depends="dbus pipewire NetworkManager"
+depends="dbus pipewire NetworkManager libinput"
 
-_applets="
- cosmic-app-list
- cosmic-applet-audio
- cosmic-applet-battery
- cosmic-applet-bluetooth
- cosmic-applet-network
- cosmic-applet-notifications
- cosmic-applet-power
- cosmic-applet-time
- cosmic-applet-workspaces
-"
+# Workspace ini menghasilkan dua binary saja:
+#   cosmic-applets      : binary utama, semua applet di-link ke dalamnya
+#   cosmic-panel-button : library helper untuk panel
 
+# This workspace generates only two binaries:
+# cosmic-applets : the main binary, all applets are linked into it
+# cosmic-panel-button : a helper library for the panel
 do_install() {
-	for _applet in ${_applets}; do
-		[ -f "target/release/${_applet}" ] && vbin "target/release/${_applet}"
-	done
+	vbin "target/${RUST_TARGET}/release/cosmic-applets"
+	vbin "target/${RUST_TARGET}/release/cosmic-panel-button"
 	vlicense LICENSE
 }

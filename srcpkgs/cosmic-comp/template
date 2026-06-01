@@ -29,10 +29,8 @@ makedepends="
  dbus-devel
  libdisplay-info-devel
 "
-
 depends="mesa-dri elogind dbus"
 
-do_install() {
-	vbin target/release/cosmic-comp
+post_install() {
 	vlicense LICENSE
 }

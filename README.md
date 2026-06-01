@@ -20,6 +20,10 @@ srcpkgs/
 └── cosmic-edit/             # Text editor
 ```
 
+Template Yang Sudah Bisa Digunakan :
+1. cosmic-comp
+2. cosmic-applets
+
 ## Persiapan
 
 ### 1. Clone void-packages dan bootstrap
