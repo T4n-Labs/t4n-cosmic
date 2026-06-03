@@ -5,10 +5,10 @@ revision=1
 build_style=cargo
 _epoch_tag="epoch-${version}"
 distfiles="https://github.com/pop-os/cosmic-applets/archive/refs/tags/${_epoch_tag}.tar.gz"
-checksum==0b2813fdb18b0f84188cf40b8be1aae59d181da40fdfabcdc90558336d09482a
+checksum=0b2813fdb18b0f84188cf40b8be1aae59d181da40fdfabcdc90558336d09482a
 
 short_desc="COSMIC panel applets (battery, network, audio, etc.)"
-maintainer="Maintainer <maintainer@example.com>"
+maintainer="Gh0sT4n <darskevoid@gmail.com>"
 license="GPL-3.0-or-later"
 homepage="https://github.com/pop-os/cosmic-applets"
 
@@ -36,7 +36,7 @@ depends="dbus pipewire NetworkManager libinput"
 # cosmic-applets : the main binary, all applets are linked into it
 # cosmic-panel-button : a helper library for the panel
 do_install() {
-	vbin "target/${RUST_TARGET}/release/cosmic-applets"
-	vbin "target/${RUST_TARGET}/release/cosmic-panel-button"
+    vbin "target/${RUST_TARGET}/release/${pkgname}"
+	vbin "target/${RUST_TARGET}/release/${pkgname}-button"
 	vlicense LICENSE
 }

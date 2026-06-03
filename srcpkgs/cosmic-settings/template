@@ -8,11 +8,11 @@ distfiles="https://github.com/pop-os/cosmic-settings/archive/refs/tags/${_epoch_
 checksum=554c7a80565b5b7797f3cff85534e7d915ee30b0631698c05c7946416870d2d4
 
 short_desc="COSMIC system settings application"
-maintainer="Maintainer <maintainer@example.com>"
-license="GPL-3.0-or-later"
+maintainer="Gh0sT4n <darskevoid@gmail.com>"
+license="GPL-3.0"
 homepage="https://github.com/pop-os/cosmic-settings"
 
-hostmakedepends="pkg-config cargo rust"
+hostmakedepends="pkg-config cargo rust clang"
 makedepends="
  libxkbcommon-devel
  wayland-devel
@@ -22,13 +22,12 @@ makedepends="
  pulseaudio-devel
  pipewire-devel
  eudev-libudev-devel
+ libinput-devel
 "
 
 depends="dbus pipewire"
 
 do_install() {
-	vbin target/release/cosmic-settings
-	vmkdir usr/share/applications
-	vinstall data/cosmic-settings.desktop 644 usr/share/applications
-	vlicense LICENSE
+    vbin target/${RUST_TARGET}/release/${pkgname}
+    vlicense LICENSE.md
 }

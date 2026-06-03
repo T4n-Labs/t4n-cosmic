@@ -8,8 +8,8 @@ distfiles="https://github.com/pop-os/cosmic-files/archive/refs/tags/${_epoch_tag
 checksum=a8afeffe9b4e47916a79e6344724446870dd0f10cce97dfdd7964705402f416c
 
 short_desc="COSMIC file manager"
-maintainer="Maintainer <maintainer@example.com>"
-license="GPL-3.0-or-later"
+maintainer="Gh0sT4n <darskevoid@gmail.com>"
+license="GPL-3.0"
 homepage="https://github.com/pop-os/cosmic-files"
 
 hostmakedepends="pkg-config cargo rust"
@@ -18,11 +18,9 @@ makedepends="
  libxkbcommon-devel
  dbus-devel
  glib-devel
+ oniguruma-devel
 "
 
-do_install() {
-	vbin target/release/cosmic-files
-	vmkdir usr/share/applications
-	vinstall data/cosmic-files.desktop 644 usr/share/applications
+post_install() {
 	vlicense LICENSE
 }

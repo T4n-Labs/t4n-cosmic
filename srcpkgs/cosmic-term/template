@@ -8,8 +8,8 @@ distfiles="https://github.com/pop-os/cosmic-term/archive/refs/tags/${_epoch_tag}
 checksum=a87be2cd6af73be8ebcae4fe3f8b2777b89cbc3f5593df0623db749961f3e843
 
 short_desc="COSMIC terminal emulator"
-maintainer="Maintainer <maintainer@example.com>"
-license="GPL-3.0-or-later"
+maintainer="Gh0sT4n <darskevoid@gmail.com>"
+license="GPL-3.0"
 homepage="https://github.com/pop-os/cosmic-term"
 
 hostmakedepends="pkg-config cargo rust"
@@ -18,11 +18,9 @@ makedepends="
  libxkbcommon-devel
  freetype-devel
  fontconfig-devel
+ libzstd-devel
 "
 
-do_install() {
-	vbin target/release/cosmic-term
-	vmkdir usr/share/applications
-	vinstall data/cosmic-term.desktop 644 usr/share/applications
+post_install() {
 	vlicense LICENSE
 }

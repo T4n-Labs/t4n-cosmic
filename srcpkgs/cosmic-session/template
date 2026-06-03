@@ -8,8 +8,8 @@ distfiles="https://github.com/pop-os/cosmic-session/archive/refs/tags/${_epoch_t
 checksum=83e827331d7412a55500ea4bbb0b3e9642675fbbdfc4d0687e06e1cf6ce44666
 
 short_desc="COSMIC session manager"
-maintainer="Maintainer <maintainer@example.com>"
-license="GPL-3.0-or-later"
+maintainer="Gh0sT4n <darskevoid@gmail.com>"
+license="GPL-3.0"
 homepage="https://github.com/pop-os/cosmic-session"
 
 hostmakedepends="pkg-config cargo rust"
@@ -26,9 +26,6 @@ depends="
 "
 
 do_install() {
-	vbin target/release/cosmic-session
-	vmkdir usr/share/wayland-sessions
-	vinstall data/cosmic.desktop 644 usr/share/wayland-sessions
-	vbin data/start-cosmic
-	vlicense LICENSE
+    vbin target/${RUST_TARGET}/release/${pkgname}
+    vlicense LICENSE.md
 }

@@ -8,8 +8,8 @@ distfiles="https://github.com/pop-os/cosmic-launcher/archive/refs/tags/${_epoch_
 checksum=50996f7cdfd1dce5e321451c7564d21e3aecf1b18fb581792c81e9c048459acb
 
 short_desc="COSMIC application launcher"
-maintainer="Maintainer <maintainer@example.com>"
-license="GPL-3.0-or-later"
+maintainer="Gh0sT4n <darskevoid@gmail.com>"
+license="GPL-3.0"
 homepage="https://github.com/pop-os/cosmic-launcher"
 
 hostmakedepends="pkg-config cargo rust"
@@ -21,7 +21,6 @@ makedepends="
 
 depends="dbus"
 
-do_install() {
-	vbin target/release/cosmic-launcher
-	vlicense LICENSE
+post_install() {
+	vlicense LICENSE.md
 }

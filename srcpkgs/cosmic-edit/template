@@ -8,8 +8,8 @@ distfiles="https://github.com/pop-os/cosmic-edit/archive/refs/tags/${_epoch_tag}
 checksum=77be0d51f53ae077004e58b1d08b1feb2a9cf777d693500c55f88c81a5fb8d22
 
 short_desc="COSMIC text editor"
-maintainer="Maintainer <maintainer@example.com>"
-license="GPL-3.0-or-later"
+maintainer="Gh0sT4n <darskevoid@gmail.com>"
+license="GPL-3.0"
 homepage="https://github.com/pop-os/cosmic-edit"
 
 hostmakedepends="pkg-config cargo rust"
@@ -18,11 +18,12 @@ makedepends="
  libxkbcommon-devel
  freetype-devel
  fontconfig-devel
+ oniguruma-devel
+ libzstd-devel
+ glib-devel
 "
 
 do_install() {
-	vbin target/release/cosmic-edit
-	vmkdir usr/share/applications
-	vinstall data/cosmic-edit.desktop 644 usr/share/applications
+	vbin target/${RUST_TARGET}/release/${pkgname}
 	vlicense LICENSE
 }

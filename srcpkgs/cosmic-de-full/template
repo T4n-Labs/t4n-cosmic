@@ -1,0 +1,35 @@
+# Template file for 'cosmic-de-full'
+pkgname=cosmic-de-full
+version=1.0.14
+revision=1
+metapackage=yes
+short_desc="COSMIC Desktop Environment Full (metapackage)"
+maintainer="Gh0sT4n <darskevoid@gmail.com>"
+license="GPL-3.0"
+homepage="https://system76.com/cosmic"
+
+depends="
+ cosmic-comp-${version}_${revision}
+ cosmic-session-${version}_${revision}
+ cosmic-settings-${version}_${revision}
+ cosmic-applets-${version}_${revision}
+ cosmic-bg-${version}_${revision}
+ cosmic-panel-${version}_${revision}
+ cosmic-launcher-${version}_${revision}
+ cosmic-files-${version}_${revision}
+ cosmic-term-${version}_${revision}
+ cosmic-edit-${version}_${revision}
+ cosmic-applibrary-${version}_${revision}
+ cosmic-workspaces-epoch-${version}_${revision}
+ cosmic-notfications-${version}_${revision}
+ cosmic-osd-${version}_${revision}
+ cosmic-player-${version}_${revision}
+ cosmic-screenshot-${version}_${revision}
+ cosmic-store-${version}_${revision}
+ elogind
+ dbus
+ mesa-dri
+ pipewire
+ wireplumber
+ xdg-user-dirs
+"

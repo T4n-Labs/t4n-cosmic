@@ -8,7 +8,7 @@ distfiles="https://github.com/pop-os/cosmic-comp/archive/refs/tags/${_epoch_tag}
 checksum=0f4c62ad03008b7217a2b45383fa769fafe572a67a178c068e49f937d6c18048
 
 short_desc="COSMIC Wayland compositor"
-maintainer="Maintainer <maintainer@example.com>"
+maintainer="Gh0sT4n <darskevoid@gmail.com>"
 license="GPL-3.0-or-later"
 homepage="https://github.com/pop-os/cosmic-comp"
 

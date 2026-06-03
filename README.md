@@ -7,26 +7,45 @@ di Void Linux dari source code.
 
 ```
 srcpkgs/
-├── cosmic-desktop/          # Metapackage (dependen semua komponen)
+├── cosmic-applets/          # Applet panel (audio, baterai, jaringan, dll.)
+├── cosmic-applibrary/       # App library overlay
+├── cosmic-bg/               # Daemon wallpaper
 ├── cosmic-comp/             # Wayland compositor (inti)
+├── cosmic-de-full/          # Metapackage — semua komponen
+├── cosmic-de-minimal/       # Metapackage — komponen inti saja
+├── cosmic-edit/             # Text editor
+├── cosmic-files/            # File manager
+├── cosmic-greeter/          # login and display manager
+├── cosmic-launcher/         # App launcher (Super key)
+├── cosmic-notifications/    # Notification daemon
+├── cosmic-osd/              # On-screen display
+├── cosmic-panel/            # Panel & dock
+├── cosmic-player/           # Media player
+├── cosmic-screenshot/       # Screenshot tool
 ├── cosmic-session/          # Session manager + start-cosmic
 ├── cosmic-settings/         # Aplikasi pengaturan sistem
-├── cosmic-applets/          # Applet panel (audio, baterai, jaringan, dll.)
-├── cosmic-panel/            # Panel & dock
-├── cosmic-bg/               # Daemon wallpaper
-├── cosmic-launcher/         # App launcher (Super key)
-├── cosmic-files/            # File manager
+├── cosmic-store/            # App store (butuh Flatpak)
 ├── cosmic-term/             # Terminal emulator
-└── cosmic-edit/             # Text editor
+└── cosmic-workspaces-epoch/ # Workspaces overview
 ```
 
-Template Yang Sudah Bisa Digunakan :
-1. cosmic-comp
-2. cosmic-applets
+#### Package Yang Sudah Siap
+1. cosmic-applets
+2. cosmic-bg
+3. cosmic-comp
+4. cosmic-de-minimal
+5. cosmic-edit
+6. cosmic-files
+7. cosmic-launcher
+8. cosmic-panel
+9. cosmic-sessions
+10. cosmic-settings
+11. cosmic-term
 
 ## Persiapan
 
 ### 1. Clone void-packages dan bootstrap
+
 ```bash
 git clone --depth=1 https://github.com/void-linux/void-packages.git
 cd void-packages
@@ -34,50 +53,44 @@ cd void-packages
 ```
 
 ### 2. Copy semua template ke srcpkgs/
+
 ```bash
-# Dari direktori ini:
 cp -r srcpkgs/cosmic-* /path/to/void-packages/srcpkgs/
 ```
 
-## Langkah Build
+### 3. Isi checksum
 
-### Isi checksum terlebih dahulu
-Setiap template memiliki baris `checksum="<sha256sum-here>"`.
-Isi dengan perintah berikut untuk masing-masing paket:
+Setiap template memiliki field `checksum` yang harus diisi sebelum build:
 
 ```bash
 cd void-packages
 
-# Contoh untuk cosmic-comp:
-./xbps-src fetch cosmic-comp
-xgensum -f srcpkgs/cosmic-comp/template
-
-# Ulangi untuk semua komponen:
-for pkg in cosmic-comp cosmic-session cosmic-settings cosmic-applets \
-           cosmic-panel cosmic-bg cosmic-launcher cosmic-files \
+for pkg in cosmic-comp cosmic-bg cosmic-launcher cosmic-applets \
+           cosmic-panel cosmic-session cosmic-settings cosmic-files \
            cosmic-term cosmic-edit; do
+    echo "==> Fetching $pkg..."
     ./xbps-src fetch $pkg
     xgensum -f srcpkgs/$pkg/template
 done
 ```
 
-### Build urutan yang benar (dependency order)
+## Langkah Build
 
 Build harus dilakukan berurutan karena ada dependensi antar paket:
 
 ```bash
-# 1. Compositor (tidak bergantung komponen lain)
+# 1. Compositor — tidak bergantung komponen lain
 ./xbps-src pkg cosmic-comp
 
-# 2. Komponen inti lainnya (bisa paralel)
+# 2. Komponen inti — bisa paralel
 ./xbps-src pkg cosmic-bg
 ./xbps-src pkg cosmic-launcher
 ./xbps-src pkg cosmic-applets
 
-# 3. Panel (butuh applets)
+# 3. Panel — butuh cosmic-applets
 ./xbps-src pkg cosmic-panel
 
-# 4. Session (butuh semua di atas)
+# 4. Session — butuh semua di atas
 ./xbps-src pkg cosmic-session
 
 # 5. Settings & aplikasi
@@ -86,64 +99,153 @@ Build harus dilakukan berurutan karena ada dependensi antar paket:
 ./xbps-src pkg cosmic-term
 ./xbps-src pkg cosmic-edit
 
-# 6. Metapackage terakhir
-./xbps-src pkg cosmic-desktop
+# 6. Metapackage — selalu terakhir
+./xbps-src pkg cosmic-de-minimal
 ```
 
-Atau build sekaligus (xbps-src akan resolve urutan otomatis):
+## Install
+
 ```bash
-./xbps-src pkg cosmic-desktop
+# Install metapackage (otomatis tarik semua dependency)
+sudo xbps-install --repository=hostdir/binpkgs cosmic-de-minimal
+
+# Atau install manual per paket
+sudo xbps-install --repository=hostdir/binpkgs \
+    cosmic-comp cosmic-session cosmic-settings cosmic-applets \
+    cosmic-panel cosmic-bg cosmic-launcher cosmic-files \
+    cosmic-term cosmic-edit
 ```
 
-### Install hasil build
+## Setup & Konfigurasi
+
+### 1. Aktifkan Services
 
 ```bash
-# Install dari repo lokal:
-sudo xbps-install --repository=hostdir/binpkgs cosmic-desktop
-
-# Atau install per paket:
-sudo xbps-install --repository=hostdir/binpkgs cosmic-comp \
-    cosmic-session cosmic-settings cosmic-applets cosmic-panel \
-    cosmic-bg cosmic-launcher cosmic-files cosmic-term cosmic-edit
-```
-
-## Aktifkan Services (wajib)
-
-```bash
-# D-Bus (sistem)
+# D-Bus — wajib
 sudo ln -s /etc/sv/dbus /var/service
 
-# elogind (session/seat management)
+# elogind — wajib untuk session/seat management
 sudo ln -s /etc/sv/elogind /var/service
 
-# PipeWire untuk audio (opsional tapi direkomendasikan)
+# PipeWire — untuk audio (sangat direkomendasikan)
 sudo ln -s /etc/sv/pipewire /var/service
 sudo ln -s /etc/sv/wireplumber /var/service
+```
 
-# Reboot setelah mengaktifkan service
+### 2. Reboot
+
+```bash
 sudo reboot
 ```
 
-## Jalankan COSMIC
+### 3. Jalankan COSMIC
 
-Karena `cosmic-greeter` belum stabil di Void Linux, jalankan secara manual:
+`cosmic-greeter` belum stabil di Void Linux, gunakan salah satu cara berikut:
 
+**Cara A — Manual dari TTY (paling sederhana):**
 ```bash
-# Dari TTY setelah login:
 start-cosmic
+```
 
-# Atau tambahkan ke ~/.bash_profile / ~/.zprofile untuk auto-start:
+**Cara B — Auto-start saat login TTY:**
+
+Tambahkan ke `~/.bash_profile` (bash) atau `~/.zprofile` (zsh):
+```bash
 if [ -z "$WAYLAND_DISPLAY" ] && [ "$XDG_VTNR" -eq 1 ]; then
     exec start-cosmic
 fi
 ```
 
-Jika menggunakan SDDM atau display manager lain:
+**Cara C — Menggunakan LIGHTDM:**
 ```bash
-sudo xbps-install sddm
-sudo ln -s /etc/sv/sddm /var/service
-# Pilih session "COSMIC" dari menu login
+sudo xbps-install lightdm
+sudo ln -s /etc/sv/lightdm /var/service
+# Pilih session "COSMIC" dari menu login LIGHTDM
 ```
+
+## Troubleshooting Build
+
+Berikut daftar error yang umum ditemui beserta solusinya.
+
+### `vinstall: cannot find 'LICENSE'`
+
+File license di source COSMIC umumnya bernama `LICENSE.md`, bukan `LICENSE`.
+Cek nama aslinya lalu sesuaikan template:
+
+```bash
+ls masterdir/builddir/<pkgname>-1.0.14/ | grep -i license
+
+# Fix di template:
+# Ganti: vlicense LICENSE
+# Jadi:  vlicense LICENSE.md
+```
+
+### `build_style=meta is deprecated`
+
+Terjadi pada metapackage. Ganti `build_style=meta` dengan `metapackage=yes`:
+
+```bash
+sed -i '/^build_style=meta/d' srcpkgs/<pkgname>/template
+# Pastikan metapackage=yes sudah ada, jika belum tambahkan manual
+```
+
+### `Unable to find libclang`
+
+Terjadi saat build package yang menggunakan `bindgen` (misal: `cosmic-settings`
+yang butuh FFI binding untuk PipeWire). Tambahkan `clang` ke `hostmakedepends`:
+
+```
+hostmakedepends="pkg-config cargo rust clang"
+```
+
+### `cannot find -linput`
+
+Missing `libinput`. Tambahkan ke `makedepends`:
+
+```
+makedepends="... libinput-devel"
+```
+
+### `Package oniguruma was not found`
+
+Terjadi pada `cosmic-edit`. Tambahkan ke `makedepends`:
+
+```
+makedepends="... oniguruma-devel"
+```
+
+### `found a virtual manifest instead of a package manifest`
+
+Terjadi saat package menggunakan struktur Cargo workspace (root `Cargo.toml`
+adalah workspace, bukan package). Override `do_install` secara manual:
+
+```bash
+do_install() {
+    vbin target/${RUST_TARGET}/release/${pkgname}
+    vlicense LICENSE.md
+}
+```
+
+Lihat `cosmic-panel` sebagai contoh — binary-nya ada di subdirektori
+`cosmic-panel-bin/` dalam workspace.
+
+### `binary already exists in destination`
+
+Sisa build sebelumnya masih ada di destdir. Jalankan clean terlebih dahulu:
+
+```bash
+./xbps-src clean <pkgname> && ./xbps-src pkg <pkgname>
+```
+
+### Warning Rust compiler
+
+Warning seperti `unused variable`, `dead_code`, `unused import` dari Rust
+compiler **tidak perlu dikhawatirkan**. Itu berasal dari kode upstream dan
+tidak mempengaruhi hasil build. Selama output diakhiri dengan:
+```
+Finished `release` profile [optimized] target(s) in Xm Xs
+```
+berarti build berhasil.
 
 ## Catatan Penting
 
@@ -152,14 +254,15 @@ sudo ln -s /etc/sv/sddm /var/service
 | **Rust toolchain** | Beberapa komponen memerlukan versi Rust spesifik (lihat `rust-toolchain.toml` di source). Install via `rustup` jika perlu. |
 | **GPU**            | COSMIC **hanya berjalan di Wayland**. Pastikan driver GPU terinstall (`mesa-dri` untuk Intel/AMD, `nvidia` untuk NVIDIA).  |
 | **cosmic-greeter** | Belum berfungsi di Void Linux — gunakan `start-cosmic` atau SDDM.                                                          |
-| **musl libc**      | Template ini dibuat untuk glibc. Untuk musl, beberapa crate mungkin perlu patch tambahan.                                  |
+| **cosmic-store**   | Butuh `flatpak` dan AppStream — tidak disertakan di `cosmic-de-minimal`.                                                   |
+| **musl libc**      | Template ini dibuat untuk **glibc**. Untuk musl, beberapa crate mungkin perlu patch tambahan.                              |
 | **checksum**       | Field `checksum` di setiap template **harus diisi** dengan `xgensum` sebelum build.                                        |
 | **Upstream tag**   | Semua distfiles menggunakan tag `epoch-1.0.14` dari repo GitHub masing-masing.                                             |
 
 ## Referensi
 
-- Upstream: https://github.com/pop-os/cosmic-epoch/releases/tag/epoch-1.0.14
-- Void maintainer (community): https://codeberg.org/Bella109/void-packages
+- Upstream release: https://github.com/pop-os/cosmic-epoch/releases/tag/epoch-1.0.14
+- Void community packages: https://codeberg.org/Bella109/void-packages
 - xbps-src Manual: https://github.com/void-linux/void-packages/blob/master/Manual.md
 
 ---

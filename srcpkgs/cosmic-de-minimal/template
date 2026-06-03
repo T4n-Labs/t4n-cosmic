@@ -1,11 +1,11 @@
-# Template file for 'cosmic-desktop'
-pkgname=cosmic-desktop
+# Template file for 'cosmic-de-minimal'
+pkgname=cosmic-de-minimal
 version=1.0.14
 revision=1
-build_style=meta
-short_desc="COSMIC Desktop Environment (metapackage)"
-maintainer="Maintainer <maintainer@example.com>"
-license="GPL-3.0-or-later"
+metapackage=yes
+short_desc="COSMIC Desktop Environment Minimal (metapackage)"
+maintainer="Gh0sT4n <darskevoid@gmail.com>"
+license="GPL-3.0"
 homepage="https://system76.com/cosmic"
 
 depends="
